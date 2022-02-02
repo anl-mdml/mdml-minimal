@@ -3,7 +3,13 @@ import argparse
 
 def main(args):
     import mdml_client as mdml
-    mdml.replay_experiment(args.exp_id, int(args.speed))
+    connection = {
+        "kafka_host": args.host,
+        "kafka_port": args.port,
+        "schema_host": args.schemaHost,
+        "schema_port": args.schemaPort
+    }
+    mdml.replay_experiment(args.exp_id, int(args.speed), producer_kwargs=connection)
     
     print(args.topics)
     consumer = mdml.kafka_mdml_consumer(

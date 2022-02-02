@@ -1,8 +1,6 @@
 import os
-import boto3
 import time
 import json
-import requests
 import threading
 import multiprocessing
 
@@ -10,13 +8,13 @@ import logging
 logging.basicConfig(filename="replay.log", level=logging.INFO)
 
 import mdml_client as mdml
-from adc_sdk.client import ADCClient
 
 def replay_spawner(connection_config={}, threads=False):
     replays = {}
     consumer = mdml.kafka_mdml_consumer(["mdml-replay-service"], "mdml-replay-service", auto_offset_reset="latest", **connection_config)
     logging.info("Consumer created.")
     for msg in consumer.consume(overall_timeout=-1):
+        print(msg)
         logging.info(msg)
         # Message will contain experiment topic
         if threads:
@@ -35,7 +33,9 @@ def replay_experiment(msg, connection_config):
     exp_id = msg['value']['experiment_id']
     speed = int(msg['value']['speed'])
     log = open(f"replay_{exp_id}.log", "w")
-    data = json.load(f"experiment_files/mdml-experiment-{exp_id}.json")
+    with open(f"experiment_files/mdml-experiment-{exp_id}.json", "r") as f:
+        data = json.load(f)
+    print(data)
     topics = []
     producers = {}
     # Un-nest the time field for easy sorting
@@ -70,5 +70,6 @@ connection_config = {
     'kafka_host': host,
     'schema_host': schema_host
 }
+print(connection_config)
 logging.info(f"Starting replay service with connection config: {connection_config}")        
 replay_spawner(connection_config, threads=False)

@@ -65,7 +65,7 @@ time.sleep(5)
 # Sending experiment data
 print("Sending data...")
 try:
-    for i in range(100):
+    for i in range(10):
         producer.produce({
             "time": time.time(),
             "int1": i,
@@ -73,7 +73,7 @@ try:
         })
         producer.flush()
         print(f"Data sent: {i}")
-        time.sleep(0.1)
+        time.sleep(1)
 except KeyboardInterrupt:
     print("done")
 
