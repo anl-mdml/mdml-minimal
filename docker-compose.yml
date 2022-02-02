@@ -154,10 +154,9 @@ services:
     environment:
       HOST: "${MDML_HOST}"
       SCHEMA_HOST: "${MDML_SCHEMA_HOST}"
-      STORAGE_GRID_ACCESS_KEY: ${STORAGE_GRID_ACCESS_KEY}
-      STORAGE_GRID_SECRET_KEY: ${STORAGE_GRID_SECRET_KEY}
     volumes:
       - ./replay_service:/usr/src/app
+      - ./experiment_service/experiment_files:/usr/src/app/experiment_files
     command: ["python", "./replay_service.py"]
     depends_on:
       - broker
@@ -169,10 +168,9 @@ services:
     environment:
       HOST: "${MDML_HOST}"
       SCHEMA_HOST: "${MDML_SCHEMA_HOST}"
-      STORAGE_GRID_ACCESS_KEY: ${STORAGE_GRID_ACCESS_KEY}
-      STORAGE_GRID_SECRET_KEY: ${STORAGE_GRID_SECRET_KEY}
     volumes:
       - ./experiment_service:/usr/src/app
+      - ./experiment_service/experiment_files:/usr/src/app/experiment_files
     command: ["python", "./experiment_service.py"]
     depends_on:
       - broker
