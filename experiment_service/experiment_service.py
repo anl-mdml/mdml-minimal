@@ -191,24 +191,6 @@ def experiment_task(msg, connection_config, experiment_start_time):
     with open(f"mdml-experiment-{exp_id}.json", "w") as f:
         json.dump(exp_msgs, f)
 
-    # Upload to BIS StorageGrid
-    try:
-        # Load credentials for StorageGrid 
-        access_key = os.environ['STORAGE_GRID_ACCESS_KEY']
-        secret_key = os.environ['STORAGE_GRID_SECRET_KEY']
-        
-        # Create boto3 client
-        s3 = boto3.client('s3', 
-            region_name='us-east-1',
-            aws_access_key_id=access_key,
-            aws_secret_access_key=secret_key,
-            endpoint_url='https://s3.it.anl.gov:18082')
-        s3.upload_file(
-            Filename=f"./mdml-experiment-{exp_id}.json",
-            Bucket="mdml-experiments",
-            Key=f"mdml-experiment-{exp_id}.json")
-    except:
-        log.write(f"\nFailed to upload experiment {exp_id} to BIS StorageGrid.")
     # Send status tags
     completed_status_msg = {
         'time': time.time(),
@@ -236,40 +218,12 @@ def experiment_task(msg, connection_config, experiment_start_time):
         # Recreate data file
         with open(f"mdml-experiment-{exp_id}.json", "w") as f:
             json.dump(verify_msgs, f)
-        try:
-            s3.upload_file(
-                Filename=f"./mdml-experiment-{exp_id}.json",
-                Bucket="mdml-experiments",
-                Key=f"mdml-experiment-{exp_id}.json")
-        except:
-            log.write(f"\nFailed to upload experiment {exp_id} to BIS StorageGrid.")
     elif len(exp_msgs) > len(verify_msgs):
         print("Verify cannot find all messages. VERY WEIRD!")
         log.write("Verify cannot find all messages. VERY WEIRD!")
     else:
         print("Verify step completed with no issues found.")
         log.write("Verify step completed with no issues found.")
-
-    # Upload to Argonne Data Cloud                
-    try:
-        client = ADCClient(os.environ['ADC_SDL_TOKEN'])
-        log.write(f"Upload experiment")
-        with open(f"mdml-experiment-{exp_id}.json", 'rb') as f:
-            # ADC MDML Experiment Study ID - U3R1ZHlOb2RlOjMx
-            sample = client.create_sample(f,"U3R1ZHlOb2RlOjMx",f"MDML experiment {exp_id}")
-        log.write(f"Sample response: {sample}")
-        d = {
-            "time": time.time(),
-            "id": sample['sample']['id'],
-            "name": sample['sample']['name'],
-            "user_name": sample['sample']['user']['name'],
-            "user_email": sample['sample']['user']['email'],
-            "url": sample['sample']['url'],
-        }
-        url_producer.produce(d)
-        url_producer.flush()
-    except:
-        log.write(f"\nFailed to upload experiment {exp_id} to Argonne Discovery Cloud")
 
     # Send status tags
     inactive_status_msg = {
@@ -279,8 +233,6 @@ def experiment_task(msg, connection_config, experiment_start_time):
     }
     status_producer.produce(inactive_status_msg)
     status_producer.flush()
-    # Remove temp file
-    # os.remove(f"mdml-experiment-{exp_id}.json")
     log.close()
 
 import os

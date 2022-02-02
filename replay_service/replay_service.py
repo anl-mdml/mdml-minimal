@@ -35,43 +35,7 @@ def replay_experiment(msg, connection_config):
     exp_id = msg['value']['experiment_id']
     speed = int(msg['value']['speed'])
     log = open(f"replay_{exp_id}.log", "w")
-    # Pull data from BIS StorageGrid
-    try:
-        bucket = "mdml-experiments"
-        # Load credentials for StorageGrid 
-        access_key = os.environ['STORAGE_GRID_ACCESS_KEY']
-        secret_key = os.environ['STORAGE_GRID_SECRET_KEY']
-        # Create boto3 client
-        s3 = boto3.client('s3', 
-            region_name='us-east-1',
-            aws_access_key_id=access_key,
-            aws_secret_access_key=secret_key,
-            endpoint_url='https://s3.it.anl.gov:18082')
-        download_resp = s3.download_file(
-            Bucket=bucket,
-            Key=f"mdml-experiment-{exp_id}.json", 
-            Filename=f"{exp_id}.json"
-        )
-        if download_resp is not None:
-            raise Exception("Experiment file could not be downloaded")
-        with open(f"{exp_id}.json") as f:
-            data = json.load(f)
-    except:
-        print("Error pulling data from StorageGrid")
-        log.write("Error pulling data from StorageGrid")
-        return
-    # # Pull from Argonne Data Cloud             
-    # try:
-    #     client = ADCClient(os.environ['ADC_SDL_TOKEN'])
-    #     # ADC MDML Experiment Study ID - U3R1ZHlOb2RlOjMx
-    #     sample = client.get_sample(adc_sample_id)
-    #     res = requests.get(sample['sample']['url'], verify=False)                
-    #     log.write(res.text)
-    #     data = res.json()
-    #     log.write(json.dumps(data))
-    # except:
-    #     log.write()
-
+    data = json.load(f"mdml-experiment-{exp_id}.json")
     topics = []
     producers = {}
     # Un-nest the time field for easy sorting
