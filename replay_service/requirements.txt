@@ -1,0 +1,6 @@
+mdml_client
+adc_sdk
+jsonschema
+requests
+boto3
+
