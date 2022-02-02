@@ -35,7 +35,7 @@ def replay_experiment(msg, connection_config):
     exp_id = msg['value']['experiment_id']
     speed = int(msg['value']['speed'])
     log = open(f"replay_{exp_id}.log", "w")
-    data = json.load(f"mdml-experiment-{exp_id}.json")
+    data = json.load(f"experiment_files/mdml-experiment-{exp_id}.json")
     topics = []
     producers = {}
     # Un-nest the time field for easy sorting

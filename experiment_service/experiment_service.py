@@ -188,7 +188,7 @@ def experiment_task(msg, connection_config, experiment_start_time):
     status_producer.produce(closing_status_msg)
     status_producer.flush()
     # Create data file
-    with open(f"mdml-experiment-{exp_id}.json", "w") as f:
+    with open(f"experiment_files/mdml-experiment-{exp_id}.json", "w") as f:
         json.dump(exp_msgs, f)
 
     # Send status tags
@@ -216,7 +216,7 @@ def experiment_task(msg, connection_config, experiment_start_time):
         print(f"Verify step found {len(verify_msgs) - len(exp_msgs)} new messages")
         log.write("Verify step found new messages.")
         # Recreate data file
-        with open(f"mdml-experiment-{exp_id}.json", "w") as f:
+        with open(f"experiment_files/mdml-experiment-{exp_id}.json", "w") as f:
             json.dump(verify_msgs, f)
     elif len(exp_msgs) > len(verify_msgs):
         print("Verify cannot find all messages. VERY WEIRD!")

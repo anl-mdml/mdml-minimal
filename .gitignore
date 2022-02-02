@@ -3,3 +3,4 @@ grafana_mysqldb/
 zookeeper/
 experiment_service/experiment.log
 replay_service/replay.log
+experiment_service/experiment_files/*.json
