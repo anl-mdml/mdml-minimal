@@ -4,6 +4,10 @@ parser.add_argument("-n", help="name of the connector (i.e. mdml-<experiment>-<d
                         dest="name", required=True)
 parser.add_argument("-t", help="topic regex (i.e. mdml-example-.* or mdml-exmaple-device1)",
                         dest="topic_regex", required=True)
+parser.add_argument("-u", help="Database admin username",
+                        dest="uname", required=True)
+parser.add_argument("-p", help="Database admin password",
+                        dest="passw", required=True)
 parser.add_argument("-s", help="server name", dest="host", required=True)
 args = parser.parse_args()
 
@@ -32,8 +36,8 @@ def configure_connector(args):
                     "insert.mode": "insert", # use insert mode to insert into table
                     "tasks.max": 1,
                     "connection.url": f"jdbc:postgresql://postgres:5432/kafka",
-                    "connection.user": "root",
-                    "connection.password": "mdmlkafkaword",
+                    "connection.user": args.uname,
+                    "connection.password": args.passw,
                     "topics.regex": args.topic_regex, # regex for topic 
                     # "topics.regex": "mdml-example-.*", # regex for topic 
                     # "topics.regex": "mdml-example-device", # regex for topic 
