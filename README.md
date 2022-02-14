@@ -1,5 +1,5 @@
 # mdml-minimal
-Minimal working version of the MDML with Kafka, Grafana, and Postgres
+Minimal working version of the MDML with Kafka (Additional services from Confluent), Grafana, Postgres, and two custom services for collecting and replaying experimental data. 
 
 ## Installation
 * clone the repo and cd into it
