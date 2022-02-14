@@ -1,15 +1,15 @@
 # mdml-minimal
-Minimal working version of the MDML with Kafka (Additional services from Confluent), Grafana, Postgres, and two custom services for collecting and replaying experimental data. 
+Minimal working version of the MDML with Kafka (additional services from Confluent), Grafana, Postgres, and two custom services for collecting and replaying experimental data. 
 
 ## Installation
-* clone the repo and cd into it
-* `source init_dirs.sh`
-* edit set_env.sh file to machine's configuration
-* `source set_env.sh`
-* `docker-compose up`
+* clone this repo and cd into it
+* run `source init_dirs.sh`
+* edit `set_env.sh` file for your host's configuration
+* run `source set_env.sh`
+* run `docker-compose up`
 
 ## Getting started
-Use the tutorial Jupyter Notebook in the python_scripts/examples folder to start interacting with your MDML instance. Remember to change the connection configuration parameters.
+Use the tutorial Jupyter Notebook in the python_scripts/examples folder to start interacting with your MDML instance. Remember to change the connection configuration parameters. Check out the [Read the Docs](https://mdml-client.readthedocs.io/en/latest/index.html) for the [MDML's Python client](https://github.com/anl-mdml/MDML_Client).
 
 ## PostgreSQL
 A Postgres DB is included in the MDML for use with Kafka Connectors. A Kafka Connector routes messages streamed in Kafka to external storage solutions or vice versa. If a schema is registered to a topic, messages on that topic can automatically be inserted into Postgres database tables. One caveat being that the message's structure is a dictionary where all of the values in the dictionary are numbers, strings, or booleans - no lists or nested dictionaries.
