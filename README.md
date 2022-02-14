@@ -17,5 +17,5 @@ A Postgres DB is included in the MDML for use with Kafka Connectors. A Kafka Con
 ## Grafana
 Go to http://YOUR_HOST:3000/login and log in as `admin` with the password you configured in `set_env.sh`. Create a new data source and configure it to pull from the Postgres database. Now, assuming a connector has been created for your data topics, Grafana can query the Postgres table containing the Kafka streaming data. This allows the creation of real-time data monitoring dashboards. 
 
-## Connectors
-Use the scripts provided in the `python_scripts/administration` folder to manage connectors for your data topics. You will need a JDBC connector to link Postgres and Kafka.
+## Kafka Connectors
+Use the scripts provided in the `python_scripts/administration` folder to manage connectors for your data topics. You will need a JDBC connector to link Postgres and Kafka. Check out more Connectors at [Confluent Hub](https://www.confluent.io/hub/)
