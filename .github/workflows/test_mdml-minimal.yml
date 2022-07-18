@@ -1,0 +1,15 @@
+name: Minimal MDML Test
+on: 
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Init dirs
+        run: source init_dirs.sh
+      - name: Init env
+        run: set_env.sh
+      - name: Build the stack
+        run: docker-compose up -d
+      - name: Test
