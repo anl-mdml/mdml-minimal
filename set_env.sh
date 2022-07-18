@@ -14,5 +14,5 @@ export MDML_GRAFDB_SECRET="password"
 export MDML_GRAFDB_ROOT_SECRET="password"
 export POSTGRES_PASSWORD="password"
 
-sudo rm $KAFKA_DATA_PATH/meta.properties
+sudo rm -f $KAFKA_DATA_PATH/meta.properties
 
