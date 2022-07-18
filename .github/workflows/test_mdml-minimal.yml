@@ -9,6 +9,6 @@ jobs:
       - name: Init dirs
         run: source init_dirs.sh
       - name: Init env
-        run: set_env.sh
+        run: source set_env.sh
       - name: Build the stack
         run: docker-compose up -d
