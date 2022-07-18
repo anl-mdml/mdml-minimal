@@ -1,6 +1,6 @@
 # CHANGE these lines as necessary
-export MDML_HOST="merfpoc.egs.anl.gov"
-export MDML_SCHEMA_HOST="merfpoc.egs.anl.gov"
+export MDML_HOST="broker"
+export MDML_SCHEMA_HOST="schema-registry"
 
 export KAFKA_DATA_PATH="/home/jelias/anl-mdml/mdml-minimal/kafka/data"
 
