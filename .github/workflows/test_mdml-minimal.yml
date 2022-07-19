@@ -44,9 +44,9 @@ jobs:
         image: confluentinc/cp-kafka-connect:5.5.4
         ports:
           - "8083:8083"
-        volumes:
-          - ./connectors/confluentinc-kafka-connect-jdbc-10.1.1:/usr/share/java/confluentinc-kafka-connect-jdbc-10.1.1
-          - ./connectors/kafka-connect-mqtt/target/kafka-connect-mqtt-1.1.0-package/kafka-connect-mqtt:/usr/share/java/kafka-connect-mqtt
+#         volumes:
+#           - ./connectors/confluentinc-kafka-connect-jdbc-10.1.1:/usr/share/java/confluentinc-kafka-connect-jdbc-10.1.1
+#           - ./connectors/kafka-connect-mqtt/target/kafka-connect-mqtt-1.1.0-package/kafka-connect-mqtt:/usr/share/java/kafka-connect-mqtt
         env:
           CONNECT_BOOTSTRAP_SERVERS: 'broker:29092'
           CONNECT_REST_ADVERTISED_HOST_NAME: connect
