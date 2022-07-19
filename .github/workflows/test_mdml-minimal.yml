@@ -11,6 +11,6 @@ jobs:
       - name: Init env
         run: source set_env.sh
       - name: Debug docker-compose
-        run: cat docker-compose convert
+        run: docker-compose convert
       - name: Build the stack
         run: docker-compose up -d
