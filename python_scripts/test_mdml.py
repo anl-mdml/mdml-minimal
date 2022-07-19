@@ -11,9 +11,9 @@ data_schema = mdml.create_schema({
 producer = mdml.kafka_mdml_producer(
   topic = "mdml-test-github-actions",
   schema = data_schema,
-  kafka_host = "localhost",
+  kafka_host = "100.26.16.4",
   kafka_port = 9092,
-  schema_host = "localhost",
+  schema_host = "100.26.16.4",
   schema_port = 8081
 )
 
@@ -29,9 +29,9 @@ for _ in range(5):
 consumer = mdml.kafka_mdml_consumer(
   topic = "mdml-test-github-actions",
   group = "github_actions",
-  kafka_host = "localhost",
+  kafka_host = "100.26.16.4",
   kafka_port = 9092,
-  schema_host = "localhost",
+  schema_host = "100.26.16.4",
   schema_port = 8081
 )
 for msg in consumer.consume(overall_timeout=300):
