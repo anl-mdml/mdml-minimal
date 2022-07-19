@@ -12,7 +12,9 @@ jobs:
         run: source set_env.sh
       - name: Build the stack
         run: docker-compose up -d
-      - name: Run client tests
+      - name: Get python version
         run: python --version
+      - name: Get pip version
         run: pip --version
+      - name: Install mdml
         run: pip install mdml_client
