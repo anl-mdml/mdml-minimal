@@ -9,7 +9,7 @@ data_schema = mdml.create_schema({
 }, "Test schema", "Schema used for testing the MDML in GitHub Actions")
 
 producer = mdml.kafka_mdml_producer(
-  topic = "mdml-test-github-actions,
+  topic = "mdml-test-github-actions",
   schema = data_schema,
   kafka_host = "broker",
   kafka_port = 9092,
