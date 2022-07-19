@@ -7,9 +7,9 @@ services:
     container_name: zookeeper
     ports:
       - "2181:2181"
-    volumes:
-      - ${ZOOKEEPER_DATA_PATH}:/var/lib/zookeeper/data
-      - ${ZOOKEEPER_LOG_PATH}:/var/lib/zookeeper/log
+#     volumes:
+#       - ${ZOOKEEPER_DATA_PATH}:/var/lib/zookeeper/data
+#       - ${ZOOKEEPER_LOG_PATH}:/var/lib/zookeeper/log
     environment:
       ZOOKEEPER_SERVER_ID: 1
       ZOOKEEPER_CLIENT_PORT: 2181
@@ -24,8 +24,8 @@ services:
     ports:
       - "9092:9092"
       - "29092:29092"
-    volumes:
-      - ${KAFKA_DATA_PATH}:/var/lib/kafka/data
+#     volumes:
+#       - ${KAFKA_DATA_PATH}:/var/lib/kafka/data
     environment:
       KAFKA_BROKER_ID: 2
       KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
@@ -48,7 +48,7 @@ services:
       - "8081:8081"
     environment:
       SCHEMA_REGISTRY_HOST_NAME: localhost
-      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: 'broker:29092'
+      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: 'localhost:29092'
       SCHEMA_REGISTRY_LISTENERS: http://localhost:8081
 
   connect:
