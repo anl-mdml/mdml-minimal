@@ -27,7 +27,7 @@ for _ in range(5):
   producer.flush()
 
 consumer = mdml.kafka_mdml_consumer(
-  topic = "mdml-test-github-actions",
+  topics = ["mdml-test-github-actions"],
   group = "github_actions",
   kafka_host = "100.26.16.4",
   kafka_port = 9092,
