@@ -1,1 +1,129 @@
+---
+version: '2'
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:6.1.1
+    hostname: zookeeper
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+    volumes:
+      - ${ZOOKEEPER_DATA_PATH}:/var/lib/zookeeper/data
+      - ${ZOOKEEPER_LOG_PATH}:/var/lib/zookeeper/log
+    environment:
+      ZOOKEEPER_SERVER_ID: 1
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
 
+  broker:
+    image: confluentinc/cp-kafka:6.1.1
+    hostname: broker
+    container_name: broker
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+      - "29092:29092"
+    volumes:
+      - ${KAFKA_DATA_PATH}:/var/lib/kafka/data
+    environment:
+      KAFKA_BROKER_ID: 2
+      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:29092,PLAINTEXT_HOST://localhost:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_NUM_PARTITIONS: 10
+      KAFKA_CONFLUENT_BALANCER_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_CONFLUENT_SCHEMA_REGISTRY_URL: http://localhost:8081
+
+  schema-registry:
+    image: confluentinc/cp-schema-registry:6.1.1
+    hostname: schema-registry
+    container_name: schema-registry
+    depends_on:
+      - broker
+    ports:
+      - "8081:8081"
+    environment:
+      SCHEMA_REGISTRY_HOST_NAME: localhost
+      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: 'broker:29092'
+      SCHEMA_REGISTRY_LISTENERS: http://localhost:8081
+
+  connect:
+    image: confluentinc/cp-kafka-connect:5.5.4
+    hostname: connect
+    container_name: connect
+    depends_on:
+      - broker
+      - schema-registry
+    ports:
+      - "8083:8083"
+    volumes:
+      - ./connectors/confluentinc-kafka-connect-jdbc-10.1.1:/usr/share/java/confluentinc-kafka-connect-jdbc-10.1.1
+      - ./connectors/kafka-connect-mqtt/target/kafka-connect-mqtt-1.1.0-package/kafka-connect-mqtt:/usr/share/java/kafka-connect-mqtt
+    environment:
+      CONNECT_BOOTSTRAP_SERVERS: 'localhost:29092'
+      CONNECT_REST_ADVERTISED_HOST_NAME: connect
+      CONNECT_REST_PORT: 8083
+      CONNECT_GROUP_ID: compose-connect-group
+      CONNECT_CONFIG_STORAGE_TOPIC: docker-connect-configs
+      CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR: 1
+      CONNECT_OFFSET_FLUSH_INTERVAL_MS: 10000
+      CONNECT_OFFSET_STORAGE_TOPIC: docker-connect-offsets
+      CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR: 1
+      CONNECT_STATUS_STORAGE_TOPIC: docker-connect-status
+      CONNECT_STATUS_STORAGE_REPLICATION_FACTOR: 1
+      CONNECT_KEY_CONVERTER: org.apache.kafka.connect.storage.StringConverter
+      CONNECT_VALUE_CONVERTER: io.confluent.connect.avro.AvroConverter
+      CONNECT_VALUE_CONVERTER_SCHEMA_REGISTRY_URL: http://localhost:8081
+      # CLASSPATH required due to CC-2422
+      CLASSPATH: /usr/share/java/monitoring-interceptors/monitoring-interceptors-6.1.1.jar
+      CONNECT_PRODUCER_INTERCEPTOR_CLASSES: "io.confluent.monitoring.clients.interceptor.MonitoringProducerInterceptor"
+      CONNECT_CONSUMER_INTERCEPTOR_CLASSES: "io.confluent.monitoring.clients.interceptor.MonitoringConsumerInterceptor"
+      CONNECT_PLUGIN_PATH: "/usr/share/java,/usr/share/confluent-hub-components"
+      CONNECT_LOG4J_LOGGERS: org.apache.zookeeper=ERROR,org.I0Itec.zkclient=ERROR,org.reflections=ERROR
+
+  rest-proxy:
+    image: confluentinc/cp-kafka-rest:6.1.1
+    depends_on:
+      - broker
+      - schema-registry
+    ports:
+      - 8082:8082
+    hostname: rest-proxy
+    container_name: rest-proxy
+    environment:
+      KAFKA_REST_HOST_NAME: rest-proxy
+      KAFKA_REST_BOOTSTRAP_SERVERS: 'localhost:29092'
+      KAFKA_REST_LISTENERS: "http://localhost:8082"
+      KAFKA_REST_SCHEMA_REGISTRY_URL: 'http://localhost:8081'
+
+#   replay_service:
+#     build: replay_service/.
+#     container_name: replay_service
+#     restart: always
+#     environment:
+#       HOST: "${MDML_HOST}"
+#       SCHEMA_HOST: "${MDML_SCHEMA_HOST}"
+#     volumes:
+#       - ./replay_service:/usr/src/app
+#       - ./experiment_service/experiment_files:/usr/src/app/experiment_files
+#     command: ["python", "./replay_service.py"]
+#     depends_on:
+#       - broker
+
+#   experiment_service:
+#     build: experiment_service/.
+#     container_name: experiment_service
+#     restart: always
+#     environment:
+#       HOST: "${MDML_HOST}"
+#       SCHEMA_HOST: "${MDML_SCHEMA_HOST}"
+#     volumes:
+#       - ./experiment_service:/usr/src/app
+#       - ./experiment_service/experiment_files:/usr/src/app/experiment_files
+#     command: ["python", "./experiment_service.py"]
+#     depends_on:
+#       - broker
