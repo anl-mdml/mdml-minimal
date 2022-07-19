@@ -11,7 +11,7 @@ jobs:
       - name: Init env
         run: source set_env.sh
       - name: Build the stack
-        run: docker-compose up -d
+        run: docker-compose -f docker-compose.ci.yml up -d
       - name: Get python version
         run: python --version
       - name: Get pip version
