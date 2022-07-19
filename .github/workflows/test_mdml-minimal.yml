@@ -18,3 +18,5 @@ jobs:
         run: pip --version
       - name: Install mdml
         run: pip install mdml_client
+      - name: Run test script
+        run: python ./python_scripts/test_mdml.py
