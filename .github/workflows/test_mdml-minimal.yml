@@ -94,7 +94,7 @@ jobs:
 #       - name: Install mdml
 #         run: pip install mdml_client
       - name: LS 
-        run: ls /
+        run: ls /github
 #       - name: Print script
 #         run: cat /github/workspace/python_scripts/test_mdml.py
 #       - name: Run test script
