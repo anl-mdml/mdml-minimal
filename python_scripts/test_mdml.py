@@ -34,5 +34,5 @@ consumer = mdml.kafka_mdml_consumer(
   schema_host = "schema-registry",
   schema_port = 8081
 )
-for msg in consumer.consume(overall_timeout=300):
+for msg in consumer.consume(overall_timeout=120):
   print(msg)
