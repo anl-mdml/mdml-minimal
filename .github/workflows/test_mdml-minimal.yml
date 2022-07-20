@@ -4,10 +4,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    container: 
-      image: centos:centos7
-      volumes: 
-        - ./python_scripts/test_mdml.py:/opt/test_mdml.py
+    container: centos:centos7
     services:
       zookeeper:
         image: confluentinc/cp-zookeeper:6.1.1
@@ -97,6 +94,6 @@ jobs:
       - name: Install mdml
         run: pip install mdml_client
       - name: Print script
-        run: cat /opt/test_mdml.py
+        run: cat /github/workspace/python_scripts/test_mdml.py
       - name: Run test script
-        run: python /opt/test_mdml.py
+        run: python /github/workspace/python_scripts/test_mdml.py
