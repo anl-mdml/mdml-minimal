@@ -96,9 +96,9 @@ jobs:
       - name: echo
         run: echo $GITHUB_WORKSPACE
       - name: LS 
-        run: ls /github/home
-      - name: LS workflow
-        run: ls /github/workflow
+        run: ls /__w/mdml-minimal/mdml-minimal
+      - name: cat script
+        run: cat $GITHUB_WORKSPACE/python_scripts/test_mdml.py
 #       - name: Print script
 #         run: cat /github/workspace/python_scripts/test_mdml.py
 #       - name: Run test script
