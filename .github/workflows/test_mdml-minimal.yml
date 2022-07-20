@@ -4,6 +4,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    container: centos:centos7
     services:
       zookeeper:
         image: confluentinc/cp-zookeeper:6.1.1
