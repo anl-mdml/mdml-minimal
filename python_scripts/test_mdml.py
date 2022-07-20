@@ -1,7 +1,7 @@
 import time
 import mdml_client as mdml
 from random import randrange
-
+time.sleep(120)
 data_schema = mdml.create_schema({
   "time": time.time(),
   "int1": 1,
