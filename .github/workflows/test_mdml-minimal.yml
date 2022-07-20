@@ -5,6 +5,8 @@ jobs:
   test:
     runs-on: ubuntu-latest
     container: centos:centos7
+      volumes:
+        - ./python_scripts/test_mdml.py:/opt/test_mdml.py
     services:
       zookeeper:
         image: confluentinc/cp-zookeeper:6.1.1
@@ -81,10 +83,10 @@ jobs:
           KAFKA_REST_SCHEMA_REGISTRY_URL: 'http://schema-registry:8081'
     steps:
       - uses: actions/checkout@v2
-      - name: Init dirs
-        run: source init_dirs.sh
-      - name: Init env
-        run: source set_env.sh
+#       - name: Init dirs
+#         run: source init_dirs.sh
+#       - name: Init env
+#         run: source set_env.sh
 #       - name: Build the stack
 #         run: docker-compose -f docker-compose.ci.yml up -d
       - name: Get python version
@@ -94,6 +96,6 @@ jobs:
       - name: Install mdml
         run: pip install mdml_client
       - name: Print script
-        run: cat ./python_scripts/test_mdml.py
+        run: cat /opt/test_mdml.py
       - name: Run test script
-        run: python ./python_scripts/test_mdml.py
+        run: python /opt/test_mdml.py
