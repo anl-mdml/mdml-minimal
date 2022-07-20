@@ -4,8 +4,9 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    container: centos:centos7
-      volumes:
+    container: 
+      image: centos:centos7
+      volumes: 
         - ./python_scripts/test_mdml.py:/opt/test_mdml.py
     services:
       zookeeper:
