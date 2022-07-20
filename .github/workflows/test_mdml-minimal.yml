@@ -80,7 +80,7 @@ jobs:
 #           KAFKA_REST_LISTENERS: "http://rest-proxy:8082"
 #           KAFKA_REST_SCHEMA_REGISTRY_URL: 'http://schema-registry:8081'
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 #       - name: Init dirs
 #         run: source init_dirs.sh
 #       - name: Init env
@@ -91,11 +91,11 @@ jobs:
         run: python --version
       - name: Get pip version
         run: pip --version
-      - name: Install mdml
-        run: pip install mdml_client
+#       - name: Install mdml
+#         run: pip install mdml_client
       - name: LS 
-        run: ls /github/workspace
-      - name: Print script
-        run: cat /github/workspace/python_scripts/test_mdml.py
-      - name: Run test script
-        run: python /github/workspace/python_scripts/test_mdml.py
+        run: ls /
+#       - name: Print script
+#         run: cat /github/workspace/python_scripts/test_mdml.py
+#       - name: Run test script
+#         run: python /github/workspace/python_scripts/test_mdml.py
