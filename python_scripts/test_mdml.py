@@ -12,10 +12,8 @@ producer = mdml.kafka_mdml_producer(
   topic = "mdml-test-github-actions",
   schema = data_schema,
   kafka_host = "localhost",
-#   kafka_host = "broker",
   kafka_port = 9092,
   schema_host = "localhost",
-#   schema_host = "schema-registry",
   schema_port = 8081
 )
 
@@ -32,10 +30,8 @@ consumer = mdml.kafka_mdml_consumer(
   topics = ["mdml-test-github-actions"],
   group = "github_actions",
   kafka_host = "localhost",
-#   kafka_host = "broker",
   kafka_port = 9092,
   schema_host = "localhost",
-#   schema_host = "schema-registry",
   schema_port = 8081
 )
 for msg in consumer.consume(overall_timeout=300):
