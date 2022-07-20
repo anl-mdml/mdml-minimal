@@ -93,8 +93,12 @@ jobs:
         run: pip --version
 #       - name: Install mdml
 #         run: pip install mdml_client
+      - name: echo
+        run: echo $GITHUB_WORKSPACE
       - name: LS 
-        run: ls /github
+        run: ls /github/home
+      - name: LS workflow
+        run: ls /github/workflow
 #       - name: Print script
 #         run: cat /github/workspace/python_scripts/test_mdml.py
 #       - name: Run test script
