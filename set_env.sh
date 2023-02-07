@@ -1,13 +1,13 @@
 # CHANGE these lines as necessary
-export MDML_HOST="broker"
-export MDML_SCHEMA_HOST="schema-registry"
+export MDML_HOST=[HOST IP ADDRESS]
+export MDML_SCHEMA_HOST=[HOST IP ADDRESS]
 
-export KAFKA_DATA_PATH="/home/jelias/anl-mdml/mdml-minimal/kafka/data"
+export KAFKA_DATA_PATH="[PATH TO REPO]/mdml-minimal/kafka/data"
 
-export ZOOKEEPER_DATA_PATH="/home/jelias/anl-mdml/mdml-minimal/zookeeper/data"
-export ZOOKEEPER_LOG_PATH="/home/jelias/anl-mdml/mdml-minimal/zookeeper/log"
+export ZOOKEEPER_DATA_PATH="[PATH TO REPO]/mdml-minimal/zookeeper/data"
+export ZOOKEEPER_LOG_PATH="[PATH TO REPO]/mdml-minimal/zookeeper/log"
 
-export POSTGRES_DATA_PATH="/home/jelias/anl-mdml/mdml-minimal/postgres"
+export POSTGRES_DATA_PATH="[PATH TO REPO]/mdml-minimal/postgres"
 
 export MDML_GRAFANA_SECRET="password"
 export MDML_GRAFDB_SECRET="password"
